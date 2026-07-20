@@ -1,0 +1,122 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Latar belakang web dengan warna gelap futuristik */
+body {
+    background: linear-gradient(135deg, #1e1e2f, #252542);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.spin-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Jarum Penunjuk di atas roda */
+.pointer {
+    position: absolute;
+    top: -20px;
+    z-index: 10;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 35px solid #ff4757;
+    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3));
+}
+
+/* Roda dengan efek cahaya/glow dan animasi melambat */
+#wheel {
+    border-radius: 50%;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), 
+                0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    transition: transform 4s cubic-bezier(0.1, 0.8, 0.25, 1); /* Efek melambat yang mulus */
+}
+
+/* Tombol SPIN di tengah-tengah roda */
+#spin-btn {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    background: linear-gradient(135deg, #ff4757, #ff6b81);
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    outline: none;
+    transition: transform 0.1s, background 0.3s;
+}
+
+#spin-btn:hover {
+    background: linear-gradient(135deg, #ff6b81, #ff4757);
+    transform: scale(1.05);
+}
+
+#spin-btn:active {
+    transform: scale(0.95);
+}
+
+/* Tampilan Pop-up Hasil Hadiah */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.popup.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.popup-content {
+    background: white;
+    padding: 30px 50px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efek memantul */
+}
+
+.popup-content h2 { color: #2f3542; }
+.popup-content p { color: #747d8c; margin: 10px 0; }
+#prize-text { color: #ff4757; margin-bottom: 20px; font-size: 2.5rem; }
+
+#close-btn {
+    padding: 10px 25px;
+    background-color: #2ed573;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Animasi Pop-up muncul */
+@keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Spin Keren</title>
+    <!-- Menghubungkan ke file CSS untuk desain -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="spin-container">
+        <!-- Jarum penunjuk di atas roda -->
+        <div class="pointer"></div>
+        
+        <!-- Lingkaran roda keberuntungan -->
+        <canvas id="wheel" width="400" height="400"></canvas>
+        
+        <!-- Tombol untuk memutar roda -->
+        <button id="spin-btn">SPIN!</button>
+    </div>
+
+    <!-- Kotak Pop-up yang muncul saat menang -->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+            <h2>Selamat! 🎉</h2>
+            <p>Kamu mendapatkan:</p>
+            <h1 id="prize-text">Zonk</h1>
+            <button id="close-btn">Main Lagi</button>
+        </div>
+    </div>
+
+    <!-- Menghubungkan ke JavaScript untuk sistem putar -->
+    <script src="script.js"></script>
+</body>
+</html>

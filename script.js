@@ -17,7 +17,7 @@ const saveAdminSettingsBtn = document.getElementById('saveAdminSettingsBtn');
 const resetSpinUserBtn = document.getElementById('resetSpinUserBtn');
 const adminBadge = document.getElementById('adminBadge');
 
-const ADMIN_PASSWORD = "admin";
+const ADMIN_PASSWORD = "dionbau";
 
 // =========================================================================
 // HADIAH PERMANEN (Index 0 WAJIB ZONK)

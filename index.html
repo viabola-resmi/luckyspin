@@ -1,36 +1,80 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucky Spin Keren</title>
-    <!-- Menghubungkan ke file CSS untuk desain -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucky Spin Wheel Premium</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
 
-    <div class="spin-container">
-        <!-- Jarum penunjuk di atas roda -->
-        <div class="pointer"></div>
-        
-        <!-- Lingkaran roda keberuntungan -->
-        <canvas id="wheel" width="400" height="400"></canvas>
-        
-        <!-- Tombol untuk memutar roda -->
-        <button id="spin-btn">SPIN!</button>
+  <div class="main-container">
+    <div class="header">
+      <h1 id="secretAdminTrigger">LUCKY SPIN WHEEL</h1>
+      <p>Putar roda keberuntungan dan menangkan hadiah menarik!</p>
+      <div id="adminBadge" class="admin-badge" style="display: none;">Mode Admin (Unlimited Spin)</div>
     </div>
 
-    <!-- Kotak Pop-up yang muncul saat menang -->
-    <div id="popup" class="popup hidden">
-        <div class="popup-content">
-            <h2>Selamat! 🎉</h2>
-            <p>Kamu mendapatkan:</p>
-            <h1 id="prize-text">Zonk</h1>
-            <button id="close-btn">Main Lagi</button>
+    <div class="wheel-wrapper">
+      <div class="pointer"></div>
+      <canvas id="wheelCanvas" width="450" height="450"></canvas>
+      <button id="spinBtn" class="center-btn">
+        <span>SPIN</span>
+      </button>
+    </div>
+
+    <div class="info-card">
+      <span><i class="fa-solid fa-ticket"></i> Sisa Kesempatan: <strong id="spinCount">1</strong></span>
+    </div>
+  </div>
+
+  <!-- Modal Pop-up Hadiah -->
+  <div id="rewardModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <i class="fa-solid fa-trophy trophy-icon"></i>
+        <h2>SELAMAT!</h2>
+      </div>
+      <p>Kamu berhasil mendapatkan:</p>
+      <div class="prize-name" id="prizeText">-</div>
+      <button id="claimBtn" class="claim-btn">AMBIL HADIAH</button>
+    </div>
+  </div>
+
+  <!-- Modal Rahasia Admin -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content admin-content">
+      <h2>Panel Admin Rahasia</h2>
+      <p style="font-size: 0.8rem; color: #aaa; margin-bottom: 15px;">Kelola Pengaturan Roda & Hadiah</p>
+      
+      <div class="admin-form">
+        <label>
+          <input type="checkbox" id="unlimitedModeToggle"> Mode Admin (Unlimited Spin)
+        </label>
+        
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;" />
+        
+        <label for="forcedPrizeSelect"><strong>Setting Hasil Spin Berikutnya:</strong></label>
+        <select id="forcedPrizeSelect" style="width:100%; padding:8px; background:#11121a; color:#fff; border:1px solid #444; border-radius:8px; margin-bottom:15px;">
+        </select>
+
+        <label>Ubah Daftar Hadiah (Pisahkan dengan koma):</label>
+        <textarea id="prizeInputList" rows="3"></textarea>
+
+        <div class="admin-actions">
+          <button id="resetSpinUserBtn" class="btn-secondary">Reset Status User (Biar Bisa Spin Lagi)</button>
+          <button id="saveAdminSettingsBtn" class="btn-primary">Simpan Pengaturan</button>
         </div>
+      </div>
+      <button id="closeAdminBtn" class="close-btn">&times;</button>
     </div>
+  </div>
 
-    <!-- Menghubungkan ke JavaScript untuk sistem putar -->
-    <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

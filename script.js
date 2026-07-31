@@ -22,8 +22,8 @@ const ADMIN_PASSWORD = "dionbau"; // Kata sandi admin
 let isAdminMode = localStorage.getItem('spin_admin_mode') === 'true';
 
 let defaultPrizes = [
-  'ZONK', 'ZONK', 'ZONK', 'VOUCHER 10%', 
-  'ZONK', 'MISTERI BOX', 'ZONK', 'ZONK'
+  'ZONK', 'ZONK', 'ZONK', 'BONUS DP 10%', 
+  'ZONK', 'PUTARAN GRATIS', 'ZONK', 'ZONK'
 ];
 
 // PASTIKAN BARIS INI TIDAK MEMAKAI localStorage UNTUK HADIAH DEFAULNYA

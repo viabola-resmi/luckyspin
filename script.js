@@ -10,21 +10,17 @@ const claimBtn = document.getElementById('claimBtn');
 const secretAdminTrigger = document.getElementById('secretAdminTrigger');
 const adminModal = document.getElementById('adminModal');
 const closeAdminBtn = document.getElementById('closeAdminBtn');
-const unlimitedModeToggle = document.getElementById('unlimitedModeToggle');
-const prizeInputList = document.getElementById('prizeInputList');
-const forcedPrizeSelect = document.getElementById('forcedPrizeSelect');
-const saveAdminSettingsBtn = document.getElementById('saveAdminSettingsBtn');
 const resetSpinUserBtn = document.getElementById('resetSpinUserBtn');
 const adminBadge = document.getElementById('adminBadge');
 
 const ADMIN_PASSWORD = "dionbau";
 
 // =========================================================================
-// HADIAH PERMANEN (Index 0 WAJIB ZONK)
+// HADIAH PERMANEN (ZONK ada di urutan pertama / Index 0)
 // =========================================================================
 let defaultPrizes = [
   'ZONK', // Index 0
-  'SALDO Rp 50.000',
+  'SALDO Rp 50.000',        // Index 1
   'SALDO RP 100,000',
   'BONUS DP 50%',
   'SALDO Rp 100.000',
@@ -35,12 +31,8 @@ let defaultPrizes = [
 
 let isAdminMode = localStorage.getItem('spin_admin_mode') === 'true';
 
-// PAKSA PAKAI DEFAULT (TIDAK BACA LOCAL STORAGE)
 let prizeList = defaultPrizes;
 let prizes = buildPrizeObjects(prizeList);
-
-// KUNCI MATI SELALU ZONK (INDEX 0)
-let forcedIndex = 0; 
 
 let hasSpun = localStorage.getItem('has_spun_user') === 'true';
 let spinsLeft = (isAdminMode) ? '∞' : (hasSpun ? 0 : 1);
@@ -137,13 +129,14 @@ function spin() {
   const numPrizes = prizes.length;
   const degreesPerSegment = 360 / numPrizes;
 
-  // DIKUNCI PASTI INDEX 0 (ZONK)
-  let winningIndex = 0; 
+  // targetIndex = 0 (ZONK)
+  const targetIndex = 0; 
 
-  const centerOfWinningSegment = (winningIndex * degreesPerSegment) + (degreesPerSegment / 2);
-  const targetDegree = 270 - centerOfWinningSegment;
-  const fullRotations = 360 * 5;
+  // Kalkulasi akurat agar jarum atas menunjuk ke tengah segmen Index 0 (ZONK)
+  const segmentCenter = (targetIndex * degreesPerSegment) + (degreesPerSegment / 2);
+  const targetDegree = 360 - segmentCenter - 90;
   
+  const fullRotations = 360 * 5; // Putar 5 kali putaran penuh
   let nextRotation = currentRotation + fullRotations + ((targetDegree - (currentRotation % 360) + 360) % 360);
   
   currentRotation = nextRotation;
@@ -157,7 +150,7 @@ function spin() {
 
   setTimeout(() => {
     isSpinning = false;
-    showReward(prizes[winningIndex].text);
+    showReward(prizes[targetIndex].text);
     updateUI();
   }, 5000);
 }
@@ -167,7 +160,7 @@ function showReward(prize) {
   if (rewardModal) rewardModal.style.display = 'flex';
 }
 
-// Admin Logic
+// Admin Trigger (Klik 5x pada Judul)
 let clickCount = 0;
 let clickTimer;
 

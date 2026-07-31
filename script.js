@@ -22,8 +22,8 @@ const ADMIN_PASSWORD = "dionbau"; // Kata sandi admin
 let isAdminMode = localStorage.getItem('spin_admin_mode') === 'true';
 
 let defaultPrizes = [
-  'Rp 50.000', 'Zonk / Coba Lagi', 'E-Gold 0.1g', 'Voucher 50%', 
-  'Rp 100.000', 'Misteri Box', 'Jackpot Rp 500k', 'Voucher 10%'
+  'SALDO Rp 50.000', 'ZONK', 'BONUS DP 10%', 'BONUS DP 50%', 
+  'SALDO Rp 100.000', 'SALDO RP 200.000', 'JACKPOT Rp 500k', 'PUTARAN GRATIS'
 ];
 
 let prizeList = JSON.parse(localStorage.getItem('spin_prizes')) || defaultPrizes;

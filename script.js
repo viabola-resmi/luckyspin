@@ -20,15 +20,15 @@ const adminBadge = document.getElementById('adminBadge');
 // CONFIG & STATE DEFAULT
 const ADMIN_PASSWORD = "dionbau"; // <--- GANTI KATA SANDI ADMIN DI SINI
 
-// =========================================================================
-// DAFTAR HADIAH UTAMA (Ubah teks di bawah ini untuk semua pengunjung!)
-// =========================================================================
+// 1. KUNCI PAKSA HASIL SPIN KELUAR INDEX KE-0 (ZONK)
+let forcedIndex = 0;
+// 2. PASTI KAN DAFTAR HADIAHNYA SESUAI (Urutan ke-0 harus ZONK)
 let defaultPrizes = [
-  'JACKPOT RP 500.000',
+  'ZONK',// <- Urutan ke-0 (Index 0)
   'SALDO RP 50.000',
   'SALDO RP 100.000',
   'BONUS DP 10%',
-  'ZONK',
+  'JACKPOT RP 500K',
   'BONUS DP 50%',
   'PUTAR SEKALI LAGI',
   'SALDO RP 200.000'
@@ -36,12 +36,13 @@ let defaultPrizes = [
 
 let isAdminMode = localStorage.getItem('spin_admin_mode') === 'true';
 
-// Selalu prioritaskan hadiah dari script, kecuali jika admin sudah ubah via panel admin
-let prizeList = JSON.parse(localStorage.getItem('spin_prizes')) || defaultPrizes;
+// 1. Dibuat langsung sama dengan defaultPrizes (tanpa localStorage)
+let prizeList = defaultPrizes;
 let prizes = buildPrizeObjects(prizeList);
 
-// Mengunci agar siapapun yang spin SELALU dapat ZONK (misal ZONK ada di urutan ke-0)
+// 2. Mengunci agar siapapun yang spin SELALU dapat ZONK (posisi ke-0)
 let forcedIndex = 0;
+
 let hasSpun = localStorage.getItem('has_spun_user') === 'true';
 let spinsLeft = (isAdminMode) ? '∞' : (hasSpun ? 0 : 1);
 let currentRotation = 0;

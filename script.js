@@ -22,8 +22,13 @@ const ADMIN_PASSWORD = "dionbau"; // Kata sandi admin
 let isAdminMode = localStorage.getItem('spin_admin_mode') === 'true';
 
 let defaultPrizes = [
-  'SALDO Rp 50.000', 'ZONK', 'BONUS DP 10%', 'BONUS DP 50%', 
-  'SALDO Rp 100.000', 'SALDO RP 200.000', 'JACKPOT Rp 500k', 'PUTARAN GRATIS'
+  'ZONK', 'ZONK', 'ZONK', 'VOUCHER 10%', 
+  'ZONK', 'MISTERI BOX', 'ZONK', 'ZONK'
+];
+
+// PASTIKAN BARIS INI TIDAK MEMAKAI localStorage UNTUK HADIAH DEFAULNYA
+let prizeList = defaultPrizes; 
+let prizes = buildPrizeObjects(prizeList);
 ];
 
 let prizeList = JSON.parse(localStorage.getItem('spin_prizes')) || defaultPrizes;

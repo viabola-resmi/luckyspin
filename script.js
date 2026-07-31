@@ -24,7 +24,7 @@ let defaultPrizes = [
   'SALDO RP 100,000',
   'BONUS DP 50%',
   'SALDO Rp 100.000',
-  'PUTAR SEKALI LAGI',
+  'PUTAR SEKALI',
   'JACKPOT Rp 500k',
   'BONUS DP 10%'
 ];

@@ -6,7 +6,7 @@ const rewardModal = document.getElementById('rewardModal');
 const prizeText = document.getElementById('prizeText');
 const claimBtn = document.getElementById('claimBtn');
 
-// Elemen Admin Rahasia
+// Elemen Admin
 const secretAdminTrigger = document.getElementById('secretAdminTrigger');
 const adminModal = document.getElementById('adminModal');
 const closeAdminBtn = document.getElementById('closeAdminBtn');
@@ -17,31 +17,30 @@ const saveAdminSettingsBtn = document.getElementById('saveAdminSettingsBtn');
 const resetSpinUserBtn = document.getElementById('resetSpinUserBtn');
 const adminBadge = document.getElementById('adminBadge');
 
-// CONFIG & STATE DEFAULT
-const ADMIN_PASSWORD = "dionbau"; // <--- GANTI KATA SANDI ADMIN DI SINI
+const ADMIN_PASSWORD = "admin";
 
-// 1. KUNCI PAKSA HASIL SPIN KELUAR INDEX KE-0 (ZONK)
-let forcedIndex = 0;
-// 2. PASTI KAN DAFTAR HADIAHNYA SESUAI (Urutan ke-0 harus ZONK)
+// =========================================================================
+// HADIAH PERMANEN (Index 0 WAJIB ZONK)
+// =========================================================================
 let defaultPrizes = [
-  'ZONK',// <- Urutan ke-0 (Index 0)
-  'SALDO RP 50.000',
-  'SALDO RP 100.000',
-  'BONUS DP 10%',
-  'JACKPOT RP 500K',
+  'ZONK', // Index 0
+  'SALDO Rp 50.000',
+  'SALDO RP 100,000',
   'BONUS DP 50%',
+  'SALDO Rp 100.000',
   'PUTAR SEKALI LAGI',
-  'SALDO RP 200.000'
+  'JACKPOT Rp 500k',
+  'BONUS DP 10%'
 ];
 
 let isAdminMode = localStorage.getItem('spin_admin_mode') === 'true';
 
-// 1. Dibuat langsung sama dengan defaultPrizes (tanpa localStorage)
+// PAKSA PAKAI DEFAULT (TIDAK BACA LOCAL STORAGE)
 let prizeList = defaultPrizes;
 let prizes = buildPrizeObjects(prizeList);
 
-// 2. Mengunci agar siapapun yang spin SELALU dapat ZONK (posisi ke-0)
-let forcedIndex = 0;
+// KUNCI MATI SELALU ZONK (INDEX 0)
+let forcedIndex = 0; 
 
 let hasSpun = localStorage.getItem('has_spun_user') === 'true';
 let spinsLeft = (isAdminMode) ? '∞' : (hasSpun ? 0 : 1);
@@ -73,7 +72,6 @@ function updateUI() {
   }
 }
 
-// Menggambar Roda Spin
 function drawWheel() {
   if (!canvas || !ctx) return;
   const numPrizes = prizes.length;
@@ -87,7 +85,6 @@ function drawWheel() {
   for (let i = 0; i < numPrizes; i++) {
     const angle = i * arcSize;
 
-    // 1. Gambar Warna Segmen
     ctx.beginPath();
     ctx.fillStyle = prizes[i].color;
     ctx.moveTo(centerX, centerY);
@@ -95,12 +92,10 @@ function drawWheel() {
     ctx.lineTo(centerX, centerY);
     ctx.fill();
 
-    // Garis Pemisah
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // 2. Gambar Teks di Tengah Segmen
     ctx.save();
     ctx.translate(centerX, centerY);
     ctx.rotate(angle + arcSize / 2);
@@ -122,7 +117,6 @@ function drawWheel() {
     ctx.restore();
   }
 
-  // Ring Luar Emas
   ctx.beginPath();
   ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
   ctx.strokeStyle = '#ffd700';
@@ -130,7 +124,6 @@ function drawWheel() {
   ctx.stroke();
 }
 
-// Fungsi Putar Roda
 function spin() {
   if (isSpinning) return;
   if (!isAdminMode && hasSpun) {
@@ -144,12 +137,8 @@ function spin() {
   const numPrizes = prizes.length;
   const degreesPerSegment = 360 / numPrizes;
 
-  let winningIndex;
-  if (forcedIndex >= 0 && forcedIndex < numPrizes) {
-    winningIndex = forcedIndex;
-  } else {
-    winningIndex = Math.floor(Math.random() * numPrizes);
-  }
+  // DIKUNCI PASTI INDEX 0 (ZONK)
+  let winningIndex = 0; 
 
   const centerOfWinningSegment = (winningIndex * degreesPerSegment) + (degreesPerSegment / 2);
   const targetDegree = 270 - centerOfWinningSegment;
@@ -176,13 +165,9 @@ function spin() {
 function showReward(prize) {
   if (prizeText) prizeText.textContent = prize;
   if (rewardModal) rewardModal.style.display = 'flex';
-
-  if (typeof confetti === 'function') {
-    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-  }
 }
 
-// Rahasia Admin Trigger
+// Admin Logic
 let clickCount = 0;
 let clickTimer;
 
@@ -190,7 +175,6 @@ if (secretAdminTrigger) {
   secretAdminTrigger.addEventListener('click', () => {
     clickCount++;
     clearTimeout(clickTimer);
-    
     if (clickCount >= 5) {
       openAdminLogin();
       clickCount = 0;
@@ -200,64 +184,13 @@ if (secretAdminTrigger) {
   });
 }
 
-let typedKeys = '';
-window.addEventListener('keydown', (e) => {
-  typedKeys += e.key;
-  if (typedKeys.length > 10) typedKeys = typedKeys.substring(1);
-  if (typedKeys.includes('admin123')) {
-    openAdminLogin();
-    typedKeys = '';
-  }
-});
-
 function openAdminLogin() {
   const pass = prompt("Masukkan Kata Sandi Admin:");
   if (pass === ADMIN_PASSWORD) {
-    if (unlimitedModeToggle) unlimitedModeToggle.checked = isAdminMode;
-    if (prizeInputList) prizeInputList.value = prizeList.join(', ');
-    populateForcedSelect();
     if (adminModal) adminModal.style.display = 'flex';
   } else if (pass !== null) {
     alert("Kata sandi salah!");
   }
-}
-
-function populateForcedSelect() {
-  if (!forcedPrizeSelect) return;
-  forcedPrizeSelect.innerHTML = '<option value="-1">🎲 ACAK (Sesuai Keberuntungan)</option>';
-  prizes.forEach((prize, index) => {
-    const selected = (index === forcedIndex) ? 'selected' : '';
-    forcedPrizeSelect.innerHTML += `<option value="${index}" ${selected}>🎯 Paksa Dapat: ${prize.text}</option>`;
-  });
-}
-
-if (saveAdminSettingsBtn) {
-  saveAdminSettingsBtn.addEventListener('click', () => {
-    if (unlimitedModeToggle) {
-      isAdminMode = unlimitedModeToggle.checked;
-      localStorage.setItem('spin_admin_mode', isAdminMode ? 'true' : 'false');
-    }
-
-    if (forcedPrizeSelect) {
-      forcedIndex = parseInt(forcedPrizeSelect.value);
-      localStorage.setItem('forced_prize_index', forcedIndex.toString());
-    }
-
-    if (prizeInputList) {
-      const rawPrizes = prizeInputList.value.split(',');
-      if (rawPrizes.length >= 2) {
-        prizeList = rawPrizes.map(p => p.trim()).filter(p => p.length > 0);
-        localStorage.setItem('spin_prizes', JSON.stringify(prizeList));
-        prizes = buildPrizeObjects(prizeList);
-        drawWheel();
-      }
-    }
-
-    spinsLeft = isAdminMode ? '∞' : (hasSpun ? 0 : 1);
-    updateUI();
-    if (adminModal) adminModal.style.display = 'none';
-    alert("Pengaturan Admin Berhasil Disimpan!");
-  });
 }
 
 if (resetSpinUserBtn) {
@@ -274,6 +207,5 @@ if (claimBtn) claimBtn.addEventListener('click', () => rewardModal.style.display
 if (closeAdminBtn) closeAdminBtn.addEventListener('click', () => adminModal.style.display = 'none');
 if (spinBtn) spinBtn.addEventListener('click', spin);
 
-// Load awal
 drawWheel();
 updateUI();
